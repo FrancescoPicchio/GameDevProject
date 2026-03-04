@@ -1,0 +1,26 @@
+Sistema di movimento a caselle
+- divisione in celle (con matrice)
+- controllare se il movimento è legale (freccia su dove vuoi andare)
+- ti puoi muovere sul muro per far passare il round (potremmo mettere dei muri che uccidono)
+- potremmo aggiungere che se ti muovi in una cella che porterebbe alla morte appare la freccia con il teschio
+
+Interagibili
+- Massi
+- Pickup (potremmo fare sistema a punti)
+
+Poteri
+- iterfaccia per i poteri
+- o a coda FIFO/STACK oppure puoi scegliere quale usare
+- decidere quali usare
+
+Reiterazione
+- reset del livello alla morte
+- input per resettare (tieni premuto R, e appare reset o altro effetto grafico)
+
+Nemici
+- movimento automatico con freccia
+- sistema per controllare se il giocatore è morto
+- nemici con movimento ciclico
+- nemici con movimento dinamico
+- trappole (spine che escono e rientrano in base al round)
+- morte se viene spinto un blocco sopra(?)

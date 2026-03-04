@@ -1,0 +1,5 @@
+- un movimento per turno in orizzontale/verticale e puoi usare un potere.
+- Se ti muovi su un blocco lo sposti.
+- Nemici che si muovono di un blocco (freccia che indica dove si muoveranno)
+- se a fine del movimento ti trovi in traiettoria muori
+- poteri: armatura (para se prendi danno nel turno), forza (tipo un pugno) (se c'è un blocco ci vai sotto e lo alzi, la prossima azione invece di muoverti lanci il blocco)
