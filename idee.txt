@@ -1,5 +1,30 @@
-- un movimento per turno in orizzontale/verticale e puoi usare un potere.
-- Se ti muovi su un blocco lo sposti.
+-un movimento per turno in orizzontale/verticale e puoi usare un potere.
 - Nemici che si muovono di un blocco (freccia che indica dove si muoveranno)
 - se a fine del movimento ti trovi in traiettoria muori
+
+
+- ti puoi muovere sul muro per far passare il round (potremmo mettere dei muri che uccidono)
+- potremmo aggiungere che se ti muovi in una cella che porterebbe alla morte appare la freccia con il teschio
+
+Interagibili
+- Massi
+- Pickup (potremmo fare sistema a punti)
+
+Poteri
+- iterfaccia per i poteri
+- o a coda FIFO/STACK oppure puoi scegliere quale usare
+- decidere quali usare
 - poteri: armatura (para se prendi danno nel turno), forza (tipo un pugno) (se c'è un blocco ci vai sotto e lo alzi, la prossima azione invece di muoverti lanci il blocco)
+
+
+Reiterazione
+- reset del livello alla morte
+- input per resettare (tieni premuto R, e appare reset o altro effetto grafico)
+
+Nemici
+- movimento automatico con freccia
+- sistema per controllare se il giocatore è morto
+- nemici con movimento ciclico
+- nemici con movimento dinamico
+- trappole (spine che escono e rientrano in base al round)
+- morte se viene spinto un blocco sopra(?)

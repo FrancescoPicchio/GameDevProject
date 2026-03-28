@@ -1,16 +1,19 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-//The player sprite is centered to the cells by having the grid class be offset by 0.5,0.5
 public class Player : MonoBehaviour
 {
+    public Tilemap tilemap;
+
     public float moveSpeed = 15f;
     private Vector3 targetPosition;
 
     void Start()
     {
-        targetPosition = transform.position;
+        Vector3Int cellPosition = tilemap.WorldToCell(transform.position);  //Ti dice in quale cella si trova il player
+        Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);      //Restituisce il centro della cella
+        targetPosition = cellCenter;                                        //Muove il player nel centro della cella
     }
-
     void Update()
     {
         MoveCharacter();
@@ -20,22 +23,46 @@ public class Player : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, targetPosition) > 0f)
         {
-            //TODO Add additional logic to check for walls, enemies or pitfalls.
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);            
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
         }
         else
         {
-            //TODO Use newer input method to handle multiple control schemes
-            //TODO Keep the player moving if they hold a direction key down
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-                targetPosition += Vector3.up;
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-                targetPosition += Vector3.down;
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                targetPosition += Vector3.left;
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                targetPosition += Vector3.right;
+            Vector3 direction = GetDirection();
+            if (CheckLegality(direction))
+            {
+                targetPosition += direction;
+            }
         }
     }
-    
+
+    Vector3 GetDirection()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            return Vector3.up;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            return Vector3.down;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            return Vector3.left;
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            return Vector3.right;
+        }
+
+        return Vector3.zero;
+    }
+
+    bool CheckLegality(Vector3 direction)
+    {
+        if (tilemap.HasTile(tilemap.WorldToCell(transform.position + direction)))
+        {
+            return true;
+        }
+        return false;
+    }
 }

@@ -1,26 +1,22 @@
-Sistema di movimento a caselle
-- divisione in celle (con matrice)
-- controllare se il movimento è legale (freccia su dove vuoi andare)
-- ti puoi muovere sul muro per far passare il round (potremmo mettere dei muri che uccidono)
-- potremmo aggiungere che se ti muovi in una cella che porterebbe alla morte appare la freccia con il teschio
+SISTEMA DI MOVIMENTO
 
-Interagibili
-- Massi
-- Pickup (potremmo fare sistema a punti)
+Allo start, ogni entità è fissata alla cella più vicina (tramite WorldToCell e GetCellCenterWorld)
+Il player attende una freccia in input, tutti le altre entità aspettano una signal.
 
-Poteri
-- iterfaccia per i poteri
-- o a coda FIFO/STACK oppure puoi scegliere quale usare
-- decidere quali usare
+Primo controllo: tipo di tile.
+Si potrebbe realizzare multiple tilemap, distinte per tipo (astrazione comune) e un metodo doSomething() the ha comportamento diverso in base alla tile.
+- Muro (skippa turno)
+- Buco (mori)
+- trappola (mori) (problema di trappole non sincronizzate, probabilmente non conviene)
 
-Reiterazione
-- reset del livello alla morte
-- input per resettare (tieni premuto R, e appare reset o altro effetto grafico)
+Secondo controllo: cella occupata.
+Ci sono casistiche
+- tile non occupata: si sposta e manda signal
+- tile occupata: si controlla da che entità è occupata
 
-Nemici
-- movimento automatico con freccia
-- sistema per controllare se il giocatore è morto
-- nemici con movimento ciclico
-- nemici con movimento dinamico
-- trappole (spine che escono e rientrano in base al round)
-- morte se viene spinto un blocco sopra(?)
+Terzo controllo: tipo di entità
+Realizziamo un'astrazione Movable
+    - Movable: (es. i massi) l'oggetto deve controllare se il movimento in quella direzione è legale
+    - Not movable: 
+
+
