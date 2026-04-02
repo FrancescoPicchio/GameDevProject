@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: collider_tile_0
+  m_Name: dungeon tiles_3
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.Tilemaps.Tile
-  m_Sprite: {fileID: -898287041475437559, guid: 208a59954236b6d4d9144af9870feffa, type: 3}
+  m_Sprite: {fileID: -234784465, guid: f5988cd8e82080441868afe8f5502bd2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

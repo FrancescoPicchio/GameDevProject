@@ -1,19 +1,21 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IMovable
 {
-    public Tilemap tilemap;
 
     public float moveSpeed = 15f;
+    public Tilemap tilemap;
     private Vector3 targetPosition;
 
     void Start()
     {
         Vector3Int cellPosition = tilemap.WorldToCell(transform.position);  //Ti dice in quale cella si trova il player
         Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);      //Restituisce il centro della cella
-        targetPosition = cellCenter;                                        //Muove il player nel centro della cella
+        transform.position = cellCenter;
+        targetPosition = transform.position;
     }
+
     void Update()
     {
         MoveCharacter();
@@ -28,10 +30,7 @@ public class Player : MonoBehaviour
         else
         {
             Vector3 direction = GetDirection();
-            if (CheckLegality(direction))
-            {
-                targetPosition += direction;
-            }
+            TryMove(direction);
         }
     }
 
@@ -57,12 +56,20 @@ public class Player : MonoBehaviour
         return Vector3.zero;
     }
 
-    bool CheckLegality(Vector3 direction)
+    public bool TryMove(Vector3 direction)
     {
-        if (tilemap.HasTile(tilemap.WorldToCell(transform.position + direction)))
+        Collider2D col = Physics2D.OverlapPoint(transform.position + direction);
+
+        if (col != null && col.TryGetComponent<IMovable>(out IMovable other))
         {
-            return true;
+            if (other.TryMove(direction))
+            {
+                targetPosition += direction;
+                return true;
+            }
+            return false;
         }
-        return false;
+        targetPosition += direction;
+        return true;
     }
 }
