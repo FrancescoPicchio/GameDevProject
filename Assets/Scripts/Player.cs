@@ -1,27 +1,21 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using System;
+using UnityEditor.Experimental.GraphView;
 
-public class Player : MonoBehaviour, IMovable
+public class Player : MovingObject
 {
 
     public float moveSpeed = 15f;
-    public Tilemap tilemap;
     private Vector3 targetPosition;
+
+    public static event Action PlayerActionDone;
 
     void Start()
     {
-        Vector3Int cellPosition = tilemap.WorldToCell(transform.position);  //Ti dice in quale cella si trova il player
-        Vector3 cellCenter = tilemap.GetCellCenterWorld(cellPosition);      //Restituisce il centro della cella
-        transform.position = cellCenter;
         targetPosition = transform.position;
     }
 
     void Update()
-    {
-        MoveCharacter();
-    }
-
-    void MoveCharacter()
     {
         if (Vector3.Distance(transform.position, targetPosition) > 0f)
         {
@@ -30,8 +24,21 @@ public class Player : MonoBehaviour, IMovable
         else
         {
             Vector3 direction = GetDirection();
-            TryMove(direction);
+            if (direction!=Vector3.zero)
+            {
+                TryToMove(direction);
+                PlayerActionDone?.Invoke();
+            }
         }
+    }
+
+    override public bool CanMoveThere(Vector3 direction) 
+    {
+        return false;
+    }
+    override protected void Move(Vector3 direction)
+    {
+        targetPosition=transform.position+direction;
     }
 
     Vector3 GetDirection()
@@ -56,20 +63,4 @@ public class Player : MonoBehaviour, IMovable
         return Vector3.zero;
     }
 
-    public bool TryMove(Vector3 direction)
-    {
-        Collider2D col = Physics2D.OverlapPoint(transform.position + direction);
-
-        if (col != null && col.TryGetComponent<IMovable>(out IMovable other))
-        {
-            if (other.TryMove(direction))
-            {
-                targetPosition += direction;
-                return true;
-            }
-            return false;
-        }
-        targetPosition += direction;
-        return true;
-    }
 }
