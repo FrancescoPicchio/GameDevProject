@@ -1171,6 +1171,37 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &114173498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 114173499}
+  m_Layer: 0
+  m_Name: EventHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &114173499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114173498}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &483523632
 GameObject:
   m_ObjectHideFlags: 0
@@ -1297,6 +1328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef498c39488c2da44a7e6023652a6411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  movementAxis: 0
 --- !u!4 &483523636
 Transform:
   m_ObjectHideFlags: 0
@@ -4314,6 +4346,18 @@ PrefabInstance:
       propertyPath: m_Offset.x
       value: -0.000000010241347
       objectReference: {fileID: 0}
+    - target: {fileID: 5517378987565087886, guid: defbae3432b2f49449272a96f376d7cf, type: 3}
+      propertyPath: playerMoved.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517378987565087886, guid: defbae3432b2f49449272a96f376d7cf, type: 3}
+      propertyPath: playerMoved.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 483523632}
+    - target: {fileID: 5517378987565087886, guid: defbae3432b2f49449272a96f376d7cf, type: 3}
+      propertyPath: playerMoved.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5712398799578407450, guid: defbae3432b2f49449272a96f376d7cf, type: 3}
       propertyPath: m_LocalScale.x
       value: 5.82
@@ -4383,3 +4427,4 @@ SceneRoots:
   - {fileID: 1060931133}
   - {fileID: 1791629491}
   - {fileID: 483523636}
+  - {fileID: 114173499}

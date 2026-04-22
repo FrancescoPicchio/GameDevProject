@@ -1,5 +1,6 @@
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.Events;
 using Vector3 = UnityEngine.Vector3;
 
 //The player sprite is centered to the cells by having the grid class be offset by 0.5,0.5
@@ -10,9 +11,12 @@ public class Player : MonoBehaviour
     private Vector3 targetPosition;
     private Vector3 direction;
 
+    public UnityEvent playerMoved;
+
     void Start()
     {
         targetPosition = transform.position;
+        playerMoved.AddListener(GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>().Move);
     }
 
     void Update()
@@ -37,29 +41,32 @@ public class Player : MonoBehaviour
             //TODO Keep the player moving if they hold a direction key down
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                if (!IsWallInTheWay(Vector3.up))
-                    targetPosition += Vector3.up;
+                ChangeDirection(Vector3.up);
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                if (!IsWallInTheWay(Vector3.down))
-                    targetPosition += Vector3.down;
+                ChangeDirection(Vector3.down);
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                if (!IsWallInTheWay(Vector3.left))
-                    targetPosition += Vector3.left;
+                ChangeDirection(Vector3.left);
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                if (!IsWallInTheWay(Vector3.right))
-                    direction = Vector3.right;
+                ChangeDirection(Vector3.right);
             }
             else
                 direction = Vector3.zero;
-
-            targetPosition += direction;
         }
+    }
+
+    private void ChangeDirection(Vector3 movementDirection)
+    {
+        if(!IsWallInTheWay(movementDirection)){
+            targetPosition += movementDirection;
+        }
+        //TODO the event should be called for any type of player input, not just movement
+        playerMoved.Invoke();
     }
 
     private bool IsWallInTheWay(Vector3 movementDirection)
