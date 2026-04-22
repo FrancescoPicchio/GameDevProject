@@ -7,6 +7,8 @@ using Vector3 = UnityEngine.Vector3;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+    private EventHandler eventHandler;
+    [SerializeField]
     private float moveSpeed;
     private Vector3 targetPosition;
     private Vector3 direction;
@@ -16,7 +18,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         targetPosition = transform.position;
-        playerMoved.AddListener(GameObject.FindGameObjectWithTag("Enemy").GetComponent<Enemy>().Move);
+        playerMoved.AddListener(eventHandler.callEnemies);
+        // playerMoved.AddListener(eventHandler.callEnemies);
     }
 
     void Update()
@@ -79,14 +82,14 @@ public class Player : MonoBehaviour
         );
         if (enemyDetector && enemyDetector.transform.CompareTag("Enemy"))
             Debug.Log("ENEMY!!!!!");
-        RaycastHit2D hit = Physics2D.Raycast(
+        RaycastHit2D wallIsInTheWay = Physics2D.Raycast(
             transform.position,
             movementDirection,
             1f,
             LayerMask.GetMask("Wall")
         );
-        if (hit)
+        if (wallIsInTheWay)
             Debug.Log("Hit a wall!");
-        return hit;
+        return wallIsInTheWay;
     }
 }
