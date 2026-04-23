@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private EventHandler eventHandler;
+
     [SerializeField]
     private float moveSpeed;
     private Vector3 targetPosition;
@@ -19,7 +20,6 @@ public class Player : MonoBehaviour
     {
         targetPosition = transform.position;
         playerMoved.AddListener(eventHandler.callEnemies);
-        // playerMoved.AddListener(eventHandler.callEnemies);
     }
 
     void Update()
@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, targetPosition) > 0f)
         {
-            //TODO Add additional logic to check for walls, enemies or pitfalls.
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
@@ -65,7 +64,8 @@ public class Player : MonoBehaviour
 
     private void ChangeDirection(Vector3 movementDirection)
     {
-        if(!IsWallInTheWay(movementDirection)){
+        if (!IsWallInTheWay(movementDirection))
+        {
             targetPosition += movementDirection;
         }
         //TODO the event should be called for any type of player input, not just movement
@@ -74,14 +74,14 @@ public class Player : MonoBehaviour
 
     private bool IsWallInTheWay(Vector3 movementDirection)
     {
-        RaycastHit2D enemyDetector = Physics2D.Raycast(
-            transform.position,
-            movementDirection,
-            1f,
-            LayerMask.GetMask("Enemy")
-        );
-        if (enemyDetector && enemyDetector.transform.CompareTag("Enemy"))
-            Debug.Log("ENEMY!!!!!");
+        // RaycastHit2D enemyDetector = Physics2D.Raycast(
+        //     transform.position,
+        //     movementDirection,
+        //     1f,
+        //     LayerMask.GetMask("Enemy")
+        // );
+        // if (enemyDetector && enemyDetector.transform.CompareTag("Enemy"))
+        //     Debug.Log("ENEMY!!!!!");
         RaycastHit2D wallIsInTheWay = Physics2D.Raycast(
             transform.position,
             movementDirection,
