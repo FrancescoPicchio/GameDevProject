@@ -1,4 +1,3 @@
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.Events;
 using Vector3 = UnityEngine.Vector3;
@@ -7,6 +6,7 @@ using Vector3 = UnityEngine.Vector3;
 public class Player : MonoBehaviour
 {
     private EventHandler eventHandler;
+    private bool canMove = true;
     public UnityEvent playerMoved;
 
     [SerializeField]
@@ -17,8 +17,10 @@ public class Player : MonoBehaviour
     void Start()
     {
         eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
-        if (eventHandler)
+        if (eventHandler){
             playerMoved.AddListener(eventHandler.callEnemies);
+            eventHandler.playerTurn.AddListener(this.setCanMove);
+        }
         else
             Debug.Log("Couldn't find EventHandler");
         targetPosition = transform.position;
@@ -29,9 +31,15 @@ public class Player : MonoBehaviour
         MoveCharacter();
     }
 
+    void setCanMove(){
+        canMove = true;
+    }
+
     void MoveCharacter()
     {
-        if (Vector3.Distance(transform.position, targetPosition) > 0f)
+        if(!canMove)
+            return;
+        else if (Vector3.Distance(transform.position, targetPosition) > 0f)
         {
             transform.position = Vector3.MoveTowards(
                 transform.position,
@@ -72,6 +80,7 @@ public class Player : MonoBehaviour
         }
         //TODO the event should be called for any type of player input, not just movement
         playerMoved.Invoke();
+        canMove = false;
     }
 
     private bool IsWallInTheWay(Vector3 movementDirection)

@@ -12,7 +12,9 @@ public class SimpleEnemy : EnemyInterface
     [SerializeField]
     private Axis movementAxis;
     private Vector3 direction;
-    private float moveSpeed = 100;
+    private float moveSpeed = 30;
+    private bool isMoving = false;
+    private Vector3 targetPosition;
 
     void Start()
     {
@@ -22,6 +24,21 @@ public class SimpleEnemy : EnemyInterface
             direction = Vector3.right;
         else
             direction = Vector3.up;
+    }
+
+    void Update(){
+        if(isMoving && Vector3.Distance(transform.position, targetPosition) > 0f){
+            //TODO use LERP instead of speed to make movement smoother
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                targetPosition,
+                moveSpeed * Time.deltaTime
+            );
+            if(transform.position == targetPosition){
+                finishedTurn.Invoke();
+                isMoving = false;
+            }
+        }
     }
 
     public override void Move()
@@ -36,14 +53,8 @@ public class SimpleEnemy : EnemyInterface
             //TODO flip sprite
             direction *= -1;
         //TODO separate logic for deciding where to move from logic for moving, for better synchronization
-        // transform.position += direction;
-        Vector3 targetPosition = transform.position + direction;
-        //FIXME synchronize this method with EventHandler and player
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            targetPosition,
-            moveSpeed * Time.deltaTime
-        );
+        targetPosition = transform.position + direction;
+        isMoving = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
