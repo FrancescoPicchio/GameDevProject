@@ -6,20 +6,22 @@ using Vector3 = UnityEngine.Vector3;
 //The player sprite is centered to the cells by having the grid class be offset by 0.5,0.5
 public class Player : MonoBehaviour
 {
-    [SerializeField]
     private EventHandler eventHandler;
+    public UnityEvent playerMoved;
 
     [SerializeField]
     private float moveSpeed;
     private Vector3 targetPosition;
     private Vector3 direction;
 
-    public UnityEvent playerMoved;
-
     void Start()
     {
+        eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
+        if (eventHandler)
+            playerMoved.AddListener(eventHandler.callEnemies);
+        else
+            Debug.Log("Couldn't find EventHandler");
         targetPosition = transform.position;
-        playerMoved.AddListener(eventHandler.callEnemies);
     }
 
     void Update()
@@ -74,14 +76,6 @@ public class Player : MonoBehaviour
 
     private bool IsWallInTheWay(Vector3 movementDirection)
     {
-        // RaycastHit2D enemyDetector = Physics2D.Raycast(
-        //     transform.position,
-        //     movementDirection,
-        //     1f,
-        //     LayerMask.GetMask("Enemy")
-        // );
-        // if (enemyDetector && enemyDetector.transform.CompareTag("Enemy"))
-        //     Debug.Log("ENEMY!!!!!");
         RaycastHit2D wallIsInTheWay = Physics2D.Raycast(
             transform.position,
             movementDirection,
