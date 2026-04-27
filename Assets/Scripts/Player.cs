@@ -5,8 +5,8 @@ using Vector3 = UnityEngine.Vector3;
 //The player sprite is centered to the cells by having the grid class be offset by 0.5,0.5
 public class Player : ObjectWithCollision
 {
-    // private EventHandler eventHandler;
-    private bool canMove = true;
+    private EventHandler eventHandler;
+    private bool canMove = false;
     public UnityEvent playerMoved;
 
     [SerializeField]
@@ -16,13 +16,15 @@ public class Player : ObjectWithCollision
 
     void Start()
     {
-        // eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
-        // if (eventHandler){
-        //     playerMoved.AddListener(eventHandler.callEnemies);
-        //     eventHandler.playerTurn.AddListener(this.setCanMove);
-        // }
-        // else
-        //     Debug.Log("Couldn't find EventHandler");
+        visitor = new PlayerVisitor();
+        eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
+        if (eventHandler)
+        {
+            // playerMoved.AddListener(eventHandler.callEnemies);
+            // eventHandler.playerTurn.AddListener(this.setCanMove);
+        }
+        else
+            Debug.Log("Couldn't find EventHandler");
         targetPosition = transform.position;
     }
 
@@ -36,6 +38,11 @@ public class Player : ObjectWithCollision
         v.PlayerVisit(this);
     }
 
+    public void Die()
+    {
+        Debug.Log("Oof, ouch I'm dead");
+    }
+
     void setCanMove()
     {
         canMove = true;
@@ -43,9 +50,7 @@ public class Player : ObjectWithCollision
 
     void MoveCharacter()
     {
-        if (!canMove)
-            return;
-        else if (Vector3.Distance(transform.position, targetPosition) > 0f)
+        if (canMove && Vector3.Distance(transform.position, targetPosition) > 0f)
         {
             transform.position = Vector3.MoveTowards(
                 transform.position,
@@ -53,6 +58,9 @@ public class Player : ObjectWithCollision
                 moveSpeed * Time.deltaTime
             );
         }
+        //Will only ever be true only if the player has finished the movement
+        else if (canMove)
+            canMove = false;
         else
         {
             //TODO Use newer input method to handle multiple control schemes
@@ -80,13 +88,21 @@ public class Player : ObjectWithCollision
 
     private void ChangeDirection(Vector3 movementDirection)
     {
-        if (!IsWallInTheWay(movementDirection))
-        {
-            targetPosition += movementDirection;
-        }
+        targetPosition += movementDirection;
         //TODO the event should be called for any type of player input, not just movement
         playerMoved.Invoke();
+        canMove = true;
         // canMove = false;
+    }
+
+    private void LookForObjectWithCollision()
+    {
+        RaycastHit2D isThereAnObject = Physics2D.Raycast(
+            transform.position,
+            targetPosition,
+            1f,
+            LayerMask.GetMask("Enemy")
+        );
     }
 
     private bool IsWallInTheWay(Vector3 movementDirection)
@@ -100,5 +116,11 @@ public class Player : ObjectWithCollision
         if (wallIsInTheWay)
             Debug.Log("Hit a wall!");
         return wallIsInTheWay;
+    }
+
+    //TODO Use EventHandler to handle who calls accept and when
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        col.transform.gameObject.GetComponent<SimpleEnemy>().Accept(visitor);
     }
 }

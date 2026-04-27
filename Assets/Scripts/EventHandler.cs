@@ -2,15 +2,8 @@ using UnityEngine;
 
 public class EventHandler : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //TODO add synchronization between enemies and player
+    //TODO add a way for enemies to declare where they want to go and then check if there are collision, resolving them with visitor
+    //TODO add a way to support collision between more than 2 enemies
+    void Start() { }
 }

@@ -2,14 +2,20 @@ using UnityEngine;
 
 public class SimpleEnemy : ObjectWithCollision
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() { }
+    void Start()
+    {
+        visitor = new SimpleEnemyVisitor();
+    }
 
-    // Update is called once per frame
     void Update() { }
 
     public override void Accept(Visitor v)
     {
         v.SimpleEnemyVisit(this);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Enemy found collision");
     }
 }
