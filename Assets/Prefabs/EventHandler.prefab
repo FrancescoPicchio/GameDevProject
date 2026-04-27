@@ -41,9 +41,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2327876623293039302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a05cb530a56ffce34b0bdf9644d70cd3, type: 3}
+  m_Script: {fileID: 11500000, guid: eb833179f81080c47a2a85546f014078, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  enemyTurn:
-    m_PersistentCalls:
-      m_Calls: []
