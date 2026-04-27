@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class SimpleEnemy : MonoBehaviour
+public class SimpleEnemy : ObjectWithCollision
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    void Start() { }
 
     // Update is called once per frame
-    void Update()
+    void Update() { }
+
+    public override void Accept(Visitor v)
     {
-        
+        v.SimpleEnemyVisit(this);
     }
 }

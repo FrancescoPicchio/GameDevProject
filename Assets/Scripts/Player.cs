@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using Vector3 = UnityEngine.Vector3;
 
 //The player sprite is centered to the cells by having the grid class be offset by 0.5,0.5
-public class Player : MonoBehaviour
+public class Player : ObjectWithCollision
 {
     // private EventHandler eventHandler;
     private bool canMove = true;
@@ -29,6 +29,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         MoveCharacter();
+    }
+
+    public override void Accept(Visitor v)
+    {
+        v.PlayerVisit(this);
     }
 
     void setCanMove()
