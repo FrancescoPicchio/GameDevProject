@@ -18,6 +18,7 @@ public abstract class EnemyInterface : MonoBehaviour
             Debug.Log("Couldn't find EventHandler");
     }
 
+    //ALWAYS invoke finishedTurn 
     public abstract void Move();
 
     ~EnemyInterface(){
