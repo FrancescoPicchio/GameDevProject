@@ -9,6 +9,7 @@ public class SimpleEnemyVisitor : Visitor
 
     public override void SimpleEnemyVisit(SimpleEnemy simpleEnemy)
     {
-        throw new System.NotImplementedException();
+        //Debug statement just to check if a simpleEnemy can see itslef
+        Debug.Log("lmao");
     }
 }

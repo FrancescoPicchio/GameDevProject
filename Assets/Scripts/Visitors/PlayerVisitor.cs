@@ -1,4 +1,3 @@
-using UnityEngine;
 
 public class PlayerVisitor : Visitor
 {
@@ -10,6 +9,5 @@ public class PlayerVisitor : Visitor
 
     public override void SimpleEnemyVisit(SimpleEnemy simpleEnemy)
     {
-        Debug.Log("player visitor called simple enemy visit");
     }
 }
