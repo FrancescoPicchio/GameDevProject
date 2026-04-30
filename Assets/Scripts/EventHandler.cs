@@ -15,9 +15,9 @@ public class EventHandler : MonoBehaviour
 
     void Update() { }
 
-    public void subscribeEnemy(ObjectWithCollision enemy)
+    public void subscribeEnemy(SimpleEnemy enemy)
     {
-        enemyTurn.AddListener(enemy.LookForObjectWithCollision);
+        enemyTurn.AddListener(enemy.Move);
         numberOfEnemies++;
     }
 
@@ -26,6 +26,7 @@ public class EventHandler : MonoBehaviour
     {
         numberOfEnemies--;
     }
+
     //TODO synchronize this method to not let player move while enemies move
     public void callEnemies()
     {
@@ -36,7 +37,8 @@ public class EventHandler : MonoBehaviour
     public void finishEnemyTurn()
     {
         finishedEnemies++;
-        if(finishedEnemies == numberOfEnemies){
+        if (finishedEnemies == numberOfEnemies)
+        {
             playerTurn.Invoke();
             finishedEnemies = 0;
         }

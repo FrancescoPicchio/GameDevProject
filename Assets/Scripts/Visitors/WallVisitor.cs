@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class SimpleEnemyVisitor : Visitor
+public class WallVisitor : Visitor
 {
     public override void PlayerVisit(Player player)
     {
-        //resets the level if an enemy moves onto a player
-        player.Die();
+        Debug.Log("found wall");
+        player.Stop();
     }
 
     public override void SimpleEnemyVisit(SimpleEnemy simpleEnemy)

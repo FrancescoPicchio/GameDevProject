@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
-using Vector3 = UnityEngine.Vector3;
 using UnityEngine.SceneManagement;
+using Vector3 = UnityEngine.Vector3;
 
 //The player sprite is centered to the cells by having the grid class be offset by 0.5,0.5
 public class Player : ObjectWithCollision
@@ -21,7 +21,7 @@ public class Player : ObjectWithCollision
         if (eventHandler)
         {
             playerMoved.AddListener(eventHandler.callEnemies);
-            // eventHandler.playerTurn.AddListener(this.setCanMove);
+            eventHandler.playerTurn.AddListener(this.setCanMove);
         }
         else
             Debug.Log("Couldn't find EventHandler");
@@ -38,15 +38,26 @@ public class Player : ObjectWithCollision
         v.PlayerVisit(this);
     }
 
+    public void Stop()
+    {
+        setCanMove();
+        targetPosition = transform.position;
+        //player movement has finished
+        playerMoved.Invoke();
+    }
+
     public void Die()
     {
         //Resets level
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void setCanMove()
+    public void setCanMove()
     {
-        canMove = true;
+        if (canMove)
+            canMove = false;
+        else
+            canMove = true;
     }
 
     void MoveCharacter()
@@ -58,12 +69,18 @@ public class Player : ObjectWithCollision
                 targetPosition,
                 moveSpeed * Time.deltaTime
             );
+            if (transform.position == targetPosition)
+            {
+                canMove = false;
+                playerMoved.Invoke();
+            }
         }
-        //Will only ever be true only if the player has finished the movement
-        else if (canMove){
-            playerMoved.Invoke();
-            canMove = false;
-        }
+        // else if (canMove)
+        // {
+        //     Debug.Log("plaeyr finished");
+        //     playerMoved.Invoke();
+        //     canMove = false;
+        // }
         else
         {
             //TODO Use newer input method to handle multiple control schemes
@@ -92,10 +109,10 @@ public class Player : ObjectWithCollision
     private void ChangeDirection(Vector3 movementDirection)
     {
         targetPosition += movementDirection;
+        //Setting canMove before so Accept can modify it.
+        canMove = true;
         LookForObjectWithCollision();
         //TODO the event should be called for any type of player input, not just movement
-        //TODO move this to visitor
-        canMove = true;
         // canMove = false;
     }
 }
