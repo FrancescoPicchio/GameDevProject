@@ -1,66 +1,21 @@
 using UnityEngine;
-using System;
-using UnityEditor.Experimental.GraphView;
 
-public class Player : MovingObject
+public class Player : ObjectWithMovementCollision
 {
-
-    public float moveSpeed = 15f;
-    private Vector3 targetPosition;
-
-    public static event Action PlayerActionDone;
-
-    void Start()
+    public override void Accept(IActionVisitor visitor)
     {
-        targetPosition = transform.position;
+        visitor.Visit(this);
     }
 
-    void Update()
+    public override bool SolveCollision(Player player)
     {
-        if (Vector3.Distance(transform.position, targetPosition) > 0f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-        }
-        else
-        {
-            Vector3 direction = GetDirection();
-            if (direction!=Vector3.zero)
-            {
-                TryToMove(direction);
-                PlayerActionDone?.Invoke();
-            }
-        }
-    }
-
-    override public bool CanMoveThere(Vector3 direction) 
-    {
+        // Un oggetto player vuole spostarsi su questo oggetto
+        
         return false;
     }
-    override protected void Move(Vector3 direction)
+    public override bool SolveCollision(Boulder boulder)
     {
-        targetPosition=transform.position+direction;
+        // Un oggetto boulder vuole spostarsi su questo oggetto
+        return false;
     }
-
-    Vector3 GetDirection()
-    {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            return Vector3.up;
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            return Vector3.down;
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            return Vector3.left;
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            return Vector3.right;
-        }
-
-        return Vector3.zero;
-    }
-
 }

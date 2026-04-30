@@ -129,6 +129,8 @@ GameObject:
   m_Component:
   - component: {fileID: 40760757}
   - component: {fileID: 40760756}
+  - component: {fileID: 40760760}
+  - component: {fileID: 40760759}
   m_Layer: 0
   m_Name: Skull
   m_TagString: Untagged
@@ -204,12 +206,85 @@ Transform:
   m_GameObject: {fileID: 40760755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &40760759
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40760755}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &40760760
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40760755}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.9, y: 0.9}
+  m_EdgeRadius: 0
 --- !u!1 &307295071
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +344,6 @@ GameObject:
   - component: {fileID: 452780481}
   - component: {fileID: 452780480}
   - component: {fileID: 452780483}
-  - component: {fileID: 452780482}
   m_Layer: 0
   m_Name: Pit
   m_TagString: Untagged
@@ -460,18 +534,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &452780482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 452780478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0118ad5ee2e3c3e4ab2c716d18b06bd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PitKill
 --- !u!19719996 &452780483
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -522,7 +584,6 @@ GameObject:
   - component: {fileID: 481687444}
   - component: {fileID: 481687443}
   - component: {fileID: 481687445}
-  - component: {fileID: 481687446}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -1081,18 +1142,6 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!114 &481687446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481687441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 997b1268ae4e8154091ad49ba1a9e186, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Walls
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -2047,7 +2096,6 @@ GameObject:
   m_Component:
   - component: {fileID: 910682595}
   - component: {fileID: 910682594}
-  - component: {fileID: 910682593}
   - component: {fileID: 910682592}
   - component: {fileID: 910682596}
   m_Layer: 0
@@ -2103,18 +2151,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.9, y: 0.9}
   m_EdgeRadius: 0
---- !u!114 &910682593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910682591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8c015ccce3810c41b2a120a6d220d74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Boulder
 --- !u!212 &910682594
 SpriteRenderer:
   serializedVersion: 2
@@ -2228,7 +2264,7 @@ GameObject:
   - component: {fileID: 1037319375}
   - component: {fileID: 1037319379}
   - component: {fileID: 1037319380}
-  - component: {fileID: 1037319377}
+  - component: {fileID: 1037319381}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2310,19 +2346,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1037319377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1037319372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95abbb3669dd1a74babc705a9f51cde0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
-  moveSpeed: 15
 --- !u!61 &1037319379
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2396,6 +2419,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1037319381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037319372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816ef53d632b12e42a03a014f0972537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Test
 --- !u!1 &1414981393
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,7 +2441,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1414981395}
   - component: {fileID: 1414981394}
-  - component: {fileID: 1414981396}
   - component: {fileID: 1414981397}
   - component: {fileID: 1414981398}
   m_Layer: 0
@@ -2490,18 +2524,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1414981396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1414981393}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8c015ccce3810c41b2a120a6d220d74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Boulder
 --- !u!61 &1414981397
 BoxCollider2D:
   m_ObjectHideFlags: 0
