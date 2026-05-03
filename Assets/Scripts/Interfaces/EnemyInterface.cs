@@ -18,10 +18,16 @@ public abstract class EnemyInterface : MonoBehaviour
             Debug.Log("Couldn't find EventHandler");
     }
 
+    //NEED to call this before destroying an enemy
+    public virtual void unsubscribe(){
+    eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
+            if (eventHandler){
+                eventHandler.unsubscribeEnemy();
+                finishedTurn.AddListener(eventHandler.finishEnemyTurn);
+            }
+            else
+                Debug.Log("Couldn't find EventHandler");
+    }
     //ALWAYS invoke finishedTurn 
     public abstract void Move();
-
-    ~EnemyInterface(){
-        eventHandler.unsubscribeEnemy();
-    }
 }

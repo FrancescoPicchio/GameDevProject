@@ -8,7 +8,12 @@ public class Pit : MonoBehaviour
     {
         if (other.transform.CompareTag("Enemy") || other.transform.CompareTag("Player"))
         {
-            Debug.Log("YOU FELL FOR IT FOOL!");
+            EventHandler eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
+            if (eventHandler){
+                eventHandler.unsubscribeEnemy();
+            }
+            else
+                Debug.Log("Couldn't find EventHandler");
             Destroy(other.gameObject);
         }
     }

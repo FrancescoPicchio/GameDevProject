@@ -12,14 +12,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
     private Vector3 targetPosition;
-    private Vector3 direction;
 
     void Start()
     {
         eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
         if (eventHandler){
             playerMoved.AddListener(eventHandler.callEnemies);
-            eventHandler.playerTurn.AddListener(this.setCanMove);
+            eventHandler.playerTurn.AddListener(setCanMove);
         }
         else
             Debug.Log("Couldn't find EventHandler");
@@ -32,13 +31,14 @@ public class Player : MonoBehaviour
     }
 
     void setCanMove(){
+        Debug.Log("canMove is true now");
         canMove = true;
     }
 
     void MoveCharacter()
     {
-        if(!canMove)
-            return;
+        if(!canMove){
+            return;}
         else if (Vector3.Distance(transform.position, targetPosition) > 0f)
         {
             transform.position = Vector3.MoveTowards(
@@ -46,6 +46,10 @@ public class Player : MonoBehaviour
                 targetPosition,
                 moveSpeed * Time.deltaTime
             );
+            if(transform.position == targetPosition){
+                playerMoved.Invoke();
+                canMove = false;
+            }
         }
         else
         {
@@ -67,8 +71,6 @@ public class Player : MonoBehaviour
             {
                 ChangeDirection(Vector3.right);
             }
-            else
-                direction = Vector3.zero;
         }
     }
 
@@ -79,8 +81,6 @@ public class Player : MonoBehaviour
             targetPosition += movementDirection;
         }
         //TODO the event should be called for any type of player input, not just movement
-        playerMoved.Invoke();
-        canMove = false;
     }
 
     private bool IsWallInTheWay(Vector3 movementDirection)

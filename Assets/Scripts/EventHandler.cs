@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 //TODO Maybe there's a way to make this static?
-public class EventHandler : MonoBehaviour
+public class  EventHandler : MonoBehaviour
 {
     public UnityEvent enemyTurn;
     public UnityEvent playerTurn;
@@ -22,19 +22,30 @@ public class EventHandler : MonoBehaviour
     //to make sure that subscriber count is consistent
     public void unsubscribeEnemy()
     {
+        Debug.Log(numberOfEnemies);
         numberOfEnemies--;
+        if(numberOfEnemies == 0)
+            finishEnemyTurn();
     }
     //TODO synchronize this method to not let player move while enemies move
     public void callEnemies()
     {
-        enemyTurn.Invoke();
+        if(numberOfEnemies == 0){
+            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
+            finishEnemyTurn();
+        }
+        else{
+            Debug.Log("BBBBBBBBBBBBBB");
+            enemyTurn.Invoke();
+        }
     }
 
     //keeps tracks of how many enemies have finished their turn
     public void finishEnemyTurn()
     {
         finishedEnemies++;
-        if(finishedEnemies == numberOfEnemies){
+        if(finishedEnemies >= numberOfEnemies){
+            Debug.Log("CCCCCCCCCCCCCCC");
             playerTurn.Invoke();
             finishedEnemies = 0;
         }
