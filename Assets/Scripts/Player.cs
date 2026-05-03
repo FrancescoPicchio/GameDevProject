@@ -16,7 +16,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
-        if (eventHandler){
+        if (eventHandler)
+        {
             playerMoved.AddListener(eventHandler.callEnemies);
             eventHandler.playerTurn.AddListener(setCanMove);
         }
@@ -30,15 +31,19 @@ public class Player : MonoBehaviour
         MoveCharacter();
     }
 
-    void setCanMove(){
-        Debug.Log("canMove is true now");
+    public void setCanMove()
+    {
         canMove = true;
+        Debug.Log("I CAN MOVE");
     }
 
     void MoveCharacter()
     {
-        if(!canMove){
-            return;}
+        if (!canMove)
+        {
+            Debug.Log("STUCK STUCK");
+            return;
+        }
         else if (Vector3.Distance(transform.position, targetPosition) > 0f)
         {
             transform.position = Vector3.MoveTowards(
@@ -46,9 +51,11 @@ public class Player : MonoBehaviour
                 targetPosition,
                 moveSpeed * Time.deltaTime
             );
-            if(transform.position == targetPosition){
-                playerMoved.Invoke();
+            if (transform.position == targetPosition)
+            {
+                Debug.Log("wew, finished moving");
                 canMove = false;
+                playerMoved.Invoke();
             }
         }
         else
@@ -80,6 +87,8 @@ public class Player : MonoBehaviour
         {
             targetPosition += movementDirection;
         }
+        else
+            playerMoved.Invoke();
         //TODO the event should be called for any type of player input, not just movement
     }
 

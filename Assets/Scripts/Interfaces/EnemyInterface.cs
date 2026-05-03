@@ -10,7 +10,8 @@ public abstract class EnemyInterface : MonoBehaviour
     protected virtual void subscribe()
     {
         eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
-        if (eventHandler){
+        if (eventHandler)
+        {
             eventHandler.subscribeEnemy(this);
             finishedTurn.AddListener(eventHandler.finishEnemyTurn);
         }
@@ -19,15 +20,16 @@ public abstract class EnemyInterface : MonoBehaviour
     }
 
     //NEED to call this before destroying an enemy
-    public virtual void unsubscribe(){
-    eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
-            if (eventHandler){
-                eventHandler.unsubscribeEnemy();
-                finishedTurn.AddListener(eventHandler.finishEnemyTurn);
-            }
-            else
-                Debug.Log("Couldn't find EventHandler");
+    public virtual void unsubscribe()
+    {
+        eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
+        if (eventHandler)
+        {
+            eventHandler.unsubscribeEnemy();
+        }
+        else
+            Debug.Log("Couldn't find EventHandler");
     }
-    //ALWAYS invoke finishedTurn 
+
     public abstract void Move();
 }

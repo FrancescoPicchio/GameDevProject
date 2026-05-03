@@ -26,15 +26,18 @@ public class SimpleEnemy : EnemyInterface
             direction = Vector3.up;
     }
 
-    void Update(){
-        if(isMoving && Vector3.Distance(transform.position, targetPosition) > 0f){
+    void Update()
+    {
+        if (isMoving && Vector3.Distance(transform.position, targetPosition) > 0f)
+        {
             //TODO use LERP instead of speed to make movement smoother
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 targetPosition,
                 moveSpeed * Time.deltaTime
             );
-            if(transform.position == targetPosition){
+            if (transform.position == targetPosition)
+            {
                 finishedTurn.Invoke();
                 isMoving = false;
             }
