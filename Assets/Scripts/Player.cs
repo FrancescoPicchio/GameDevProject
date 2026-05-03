@@ -41,7 +41,6 @@ public class Player : MonoBehaviour
     {
         if (!canMove)
         {
-            Debug.Log("STUCK STUCK");
             return;
         }
         else if (Vector3.Distance(transform.position, targetPosition) > 0f)
@@ -53,7 +52,6 @@ public class Player : MonoBehaviour
             );
             if (transform.position == targetPosition)
             {
-                Debug.Log("wew, finished moving");
                 canMove = false;
                 playerMoved.Invoke();
             }

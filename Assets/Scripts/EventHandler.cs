@@ -33,12 +33,10 @@ public class EventHandler : MonoBehaviour
     {
         if (numberOfEnemies == 0)
         {
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
             playerTurn.Invoke();
         }
         else
         {
-            Debug.Log("BBBBBBBBBBBBBB");
             enemyTurn.Invoke();
         }
     }
@@ -49,7 +47,6 @@ public class EventHandler : MonoBehaviour
         finishedEnemies++;
         if (finishedEnemies >= numberOfEnemies)
         {
-            Debug.Log("CCCCCCCCCCCCCCC");
             playerTurn.Invoke();
             finishedEnemies = 0;
         }
