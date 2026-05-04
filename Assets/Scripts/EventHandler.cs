@@ -22,7 +22,6 @@ public class EventHandler : MonoBehaviour
     //to make sure that subscriber count is consistent
     public void unsubscribeEnemy()
     {
-        Debug.Log(numberOfEnemies);
         numberOfEnemies--;
         if (numberOfEnemies == 0)
             playerTurn.Invoke();

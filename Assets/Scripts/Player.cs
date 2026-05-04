@@ -34,7 +34,6 @@ public class Player : MonoBehaviour
     public void setCanMove()
     {
         canMove = true;
-        Debug.Log("I CAN MOVE");
     }
 
     void MoveCharacter()
