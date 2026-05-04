@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3278536704884681122}
   - component: {fileID: 9010018994630585250}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hurtbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 7360915841487223078}
   - component: {fileID: 9188761595551755316}
   - component: {fileID: 8334545266990901913}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SimpleEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}

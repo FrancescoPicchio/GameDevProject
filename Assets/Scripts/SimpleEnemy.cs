@@ -46,15 +46,27 @@ public class SimpleEnemy : EnemyInterface
 
     public override void Move()
     {
-        RaycastHit2D wallIsInFront = Physics2D.Raycast(
-            transform.position,
-            direction,
-            1f,
+        // RaycastHit2D wallIsInFront = Physics2D.Raycast(
+        //     transform.position,
+        //     direction,
+        //     1f,
+        //     LayerMask.GetMask("Wall")
+        // );
+        Collider2D wallIsInFront = Physics2D.OverlapPoint(
+            transform.position + direction,
             LayerMask.GetMask("Wall")
         );
-        if (wallIsInFront)
+        Collider2D enemyIsInFront = Physics2D.OverlapPoint(
+            transform.position + direction,
+            LayerMask.GetMask("Enemy")
+        );
+        if (wallIsInFront || enemyIsInFront)
+        {
             //TODO flip sprite
             direction *= -1;
+            finishedTurn.Invoke();
+            return;
+        }
         //TODO separate logic for deciding where to move from logic for moving, for better synchronization
         targetPosition = transform.position + direction;
         isMoving = true;
