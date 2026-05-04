@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Pit : MonoBehaviour
 {
-    //TODO look if there's a method to use Grid to check if there's something above a Pit
     //TODO maybe synchronize this check with eventHandler
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -11,6 +10,7 @@ public class Pit : MonoBehaviour
             EventHandler eventHandler = GameObject
                 .FindGameObjectWithTag("Logic")
                 .GetComponent<EventHandler>();
+            //TODO think if you can find a way wher you don't need to use GetComponent
             EnemyInterface enemy = other.gameObject.GetComponent<EnemyInterface>();
             enemy.unsubscribe();
         }

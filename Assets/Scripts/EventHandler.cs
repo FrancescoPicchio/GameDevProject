@@ -9,17 +9,23 @@ public class EventHandler : MonoBehaviour
 {
     public UnityEvent enemyTurn;
     public UnityEvent playerTurn;
-    private int finishedEnemies = 0;
+
+    //keeps track of the enemies, with their key being associated with their current position before their turn
     private SortedList<float, EnemyInterface> enemies = new SortedList<float, EnemyInterface>();
+
+    //keeps track of the enemies, with their key being associated with their next position
     private SortedList<float, EnemyInterface> enemiesNewPosition =
         new SortedList<float, EnemyInterface>();
+
+    //Can't delete during a loop, so it notes which enemies will have to be deleted
     private List<float> enemiesToDelete = new List<float>();
+
+    //Used to enunciate the loops in the coroutine
     private bool processNextEnemy = false;
+
+    //Used to keep track if we should add or not the current enemy to enemiesNewPosition.
+    //It'd be hard to delete that enemy from enemiesNewPosition otherwise
     private bool lastEnemyDied = false;
-
-    void Start() { }
-
-    void Update() { }
 
     public void subscribeEnemy(EnemyInterface enemy)
     {
@@ -31,15 +37,17 @@ public class EventHandler : MonoBehaviour
     public void unsubscribeEnemy(float enemyPosition)
     {
         enemiesToDelete.Add(enemyPosition);
+        //Check so player can still move if alone
         if (enemies.Count == 0)
             playerTurn.Invoke();
         lastEnemyDied = true;
+        //Calling this function is equivalent to the enemy invoking the event
         finishedEnemyTurn();
     }
 
-    //TODO synchronize this method to not let player move while enemies move
     public void callEnemies()
     {
+        //Condition so player can move even if there are no enemies
         if (enemies.Count == 0)
         {
             playerTurn.Invoke();
@@ -50,17 +58,18 @@ public class EventHandler : MonoBehaviour
         }
     }
 
+    //Will be called by enemies invoking their event when they end their turn
     public void finishedEnemyTurn()
     {
         processNextEnemy = true;
     }
 
+    //Need to use System.Collections because otherwise C# compiler thinks it's IEnumerator<T>
     private System.Collections.IEnumerator callEnemiesInOrder()
     {
         foreach (var enemy in enemies.Values)
         {
             lastEnemyDied = false;
-            Debug.Log(enemy.name);
             processNextEnemy = false;
             enemy.Move();
             yield return new WaitUntil(() => processNextEnemy);
@@ -71,38 +80,18 @@ public class EventHandler : MonoBehaviour
 
         foreach (var positionToDelete in enemiesToDelete)
         {
-            Debug.Log("KILL KILL KILL");
             EnemyInterface enemyToDestroy = enemies[positionToDelete];
             //Uses the old position of the enemy
             bool result = enemies.Remove(positionToDelete);
-            Debug.Log(result);
             Destroy(enemyToDestroy.gameObject);
         }
 
+        //Updates enemies list to the enemies with their new position
         enemies = enemiesNewPosition;
-        //Can't do .Clear because enemies has become a shallow copy of enemiesNewPosition
+        //Can't do enemiesNewPosition.Clear() because enemies has become a shallow copy of enemiesNewPosition
         enemiesNewPosition = new SortedList<float, EnemyInterface>();
         enemiesToDelete.Clear();
         playerTurn.Invoke();
-    }
-
-    //keeps tracks of how many enemies have finished their turn
-    public void finishEnemyTurn(EnemyInterface enemy)
-    {
-        finishedEnemies++;
-        float positionKey = CoordinatesUtil.convert(enemy.transform.position);
-        enemiesNewPosition.Add(positionKey, enemy);
-        if (finishedEnemies >= enemies.Count)
-        {
-            playerTurn.Invoke();
-            finishedEnemies = 0;
-            enemies.Clear();
-            enemies = enemiesNewPosition;
-        }
-        else
-        {
-            enemies.Values[finishedEnemies].Move();
-        }
     }
 
     //static so it can be called without having a reference to eventHandler

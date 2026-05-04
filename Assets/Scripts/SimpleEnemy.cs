@@ -81,6 +81,7 @@ public class SimpleEnemy : EnemyInterface
         if (eventHandler)
         {
             Debug.Log("trying to unsubscribe SimpleEnemy");
+            //Passes the old position of the enemy
             eventHandler.unsubscribeEnemy(CoordinatesUtil.convert(targetPosition - direction));
         }
         else

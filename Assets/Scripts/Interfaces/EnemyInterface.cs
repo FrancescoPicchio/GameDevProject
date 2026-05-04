@@ -5,7 +5,6 @@ public abstract class EnemyInterface : MonoBehaviour
 {
     protected EventHandler eventHandler;
 
-    // public UnityEvent<EnemyInterface> finishedTurn;
     public UnityEvent finishedTurn;
 
     //TODO find a way to put this inside Start() and make derived classes call it automatically
@@ -15,7 +14,6 @@ public abstract class EnemyInterface : MonoBehaviour
         if (eventHandler)
         {
             eventHandler.subscribeEnemy(this);
-            // finishedTurn.AddListener(eventHandler.finishEnemyTurn);
             finishedTurn.AddListener(eventHandler.finishedEnemyTurn);
         }
         else
