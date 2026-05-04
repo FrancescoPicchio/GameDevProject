@@ -12,7 +12,7 @@ public class SimpleEnemy : EnemyInterface
     [SerializeField]
     private Axis movementAxis;
     private Vector3 direction;
-    private float moveSpeed = 30;
+    private float moveSpeed = 50;
     private bool isMoving = false;
     private Vector3 targetPosition;
 
@@ -46,12 +46,6 @@ public class SimpleEnemy : EnemyInterface
 
     public override void Move()
     {
-        // RaycastHit2D wallIsInFront = Physics2D.Raycast(
-        //     transform.position,
-        //     direction,
-        //     1f,
-        //     LayerMask.GetMask("Wall")
-        // );
         Collider2D wallIsInFront = Physics2D.OverlapPoint(
             transform.position + direction,
             LayerMask.GetMask("Wall")
@@ -77,7 +71,19 @@ public class SimpleEnemy : EnemyInterface
         if (other.transform.CompareTag("Player"))
         {
             Debug.Log("Killed Player. Game Over!");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            EventHandler.killPlayer();
         }
+    }
+
+    public override void unsubscribe()
+    {
+        eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
+        if (eventHandler)
+        {
+            Debug.Log("trying to unsubscribe SimpleEnemy");
+            eventHandler.unsubscribeEnemy(CoordinatesUtil.convert(targetPosition - direction));
+        }
+        else
+            Debug.Log("Couldn't find EventHandler");
     }
 }

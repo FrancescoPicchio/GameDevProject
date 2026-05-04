@@ -283,11 +283,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1353,11 +1353,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -7
       objectReference: {fileID: 0}
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1391,6 +1391,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2388015635004209481, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
+      propertyPath: movementAxis
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7480376318161494887, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_Name
       value: SimpleEnemy (1)
@@ -1421,11 +1425,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1429323324934291695, guid: 7e3385d267d94b74e95d77d7f227d69d, type: 3}
       propertyPath: m_LocalPosition.z

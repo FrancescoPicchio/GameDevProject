@@ -3,7 +3,9 @@ using UnityEngine.Events;
 
 public abstract class EnemyInterface : MonoBehaviour
 {
-    private EventHandler eventHandler;
+    protected EventHandler eventHandler;
+
+    // public UnityEvent<EnemyInterface> finishedTurn;
     public UnityEvent finishedTurn;
 
     //TODO find a way to put this inside Start() and make derived classes call it automatically
@@ -13,7 +15,8 @@ public abstract class EnemyInterface : MonoBehaviour
         if (eventHandler)
         {
             eventHandler.subscribeEnemy(this);
-            finishedTurn.AddListener(eventHandler.finishEnemyTurn);
+            // finishedTurn.AddListener(eventHandler.finishEnemyTurn);
+            finishedTurn.AddListener(eventHandler.finishedEnemyTurn);
         }
         else
             Debug.Log("Couldn't find EventHandler");
@@ -25,7 +28,7 @@ public abstract class EnemyInterface : MonoBehaviour
         eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
         if (eventHandler)
         {
-            eventHandler.unsubscribeEnemy();
+            eventHandler.unsubscribeEnemy(CoordinatesUtil.convert(this.transform.position));
         }
         else
             Debug.Log("Couldn't find EventHandler");

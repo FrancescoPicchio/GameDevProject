@@ -6,15 +6,15 @@ public class Pit : MonoBehaviour
     //TODO maybe synchronize this check with eventHandler
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.CompareTag("Enemy") || other.transform.CompareTag("Player"))
+        if (other.transform.CompareTag("Enemy"))
         {
-            EventHandler eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
-            if (eventHandler){
-                eventHandler.unsubscribeEnemy();
-            }
-            else
-                Debug.Log("Couldn't find EventHandler");
-            Destroy(other.gameObject);
+            EventHandler eventHandler = GameObject
+                .FindGameObjectWithTag("Logic")
+                .GetComponent<EventHandler>();
+            EnemyInterface enemy = other.gameObject.GetComponent<EnemyInterface>();
+            enemy.unsubscribe();
         }
+        else if (other.transform.CompareTag("Player"))
+            EventHandler.killPlayer();
     }
 }
