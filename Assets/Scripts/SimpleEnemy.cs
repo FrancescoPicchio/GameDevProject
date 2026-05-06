@@ -12,7 +12,7 @@ public class SimpleEnemy : EnemyInterface
 
     [SerializeField]
     private InitialDirection initialDirection = InitialDirection.east;
-    private float moveSpeed = 80;
+    private float moveSpeed = 30;
     private bool isMoving = false;
 
     void Start()
