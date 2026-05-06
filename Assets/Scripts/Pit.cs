@@ -12,6 +12,9 @@ public class Pit : MonoBehaviour
                 .GetComponent<EventHandler>();
             //TODO think if you can find a way wher you don't need to use GetComponent
             EnemyInterface enemy = other.gameObject.GetComponent<EnemyInterface>();
+            //To avoid other objects erranously detect the dead enemy
+            //TODO maybe encapsulate both methods inside a die() method
+            enemy.disableRigidBody();
             enemy.unsubscribe();
         }
         else if (other.transform.CompareTag("Player"))

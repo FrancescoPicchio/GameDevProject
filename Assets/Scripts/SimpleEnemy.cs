@@ -29,19 +29,44 @@ public class SimpleEnemy : EnemyInterface
             direction = Vector3.right;
     }
 
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
     void Update()
     {
-        if (isMoving && Vector3.Distance(transform.position, targetPosition) > 0f)
+        // if (isMoving && Vector3.Distance(transform.position, targetPosition) > 0f)
+        // {
+        //     //TODO use LERP instead of speed to make movement smoother
+        //     transform.position = Vector3.MoveTowards(
+        //         transform.position,
+        //         targetPosition,
+        //         moveSpeed * Time.deltaTime
+        //     );
+        //     //We could use Rigidbody2D.MoveTowards instead of waiting for FixedUpdate
+        //     if (transform.position == targetPosition)
+        //     {
+        //         isMoving = false;
+        //         finishedTurn.Invoke();
+        //     }
+        // }
+    }
+
+    void FixedUpdate()
+    {
+        if (isMoving)
         {
-            //TODO use LERP instead of speed to make movement smoother
-            transform.position = Vector3.MoveTowards(
-                transform.position,
+            //Using MoveTowards because it makes the movement smoother and over time
+            Vector2 nextPosition = Vector2.MoveTowards(
+                rb.position,
                 targetPosition,
-                moveSpeed * Time.deltaTime
+                moveSpeed * Time.fixedDeltaTime
             );
-            //We could use Rigidbody2D.MoveTowards instead of waiting for FixedUpdate
-            if (transform.position == targetPosition)
+            rb.MovePosition(nextPosition);
+            if (Vector2.Distance(rb.position, targetPosition) < 0.01f)
             {
+                rb.MovePosition(targetPosition);
                 isMoving = false;
                 finishedTurn.Invoke();
             }

@@ -51,7 +51,6 @@ public class EventHandler : MonoBehaviour
         //Condition so player can move even if there are no enemies
         if (enemies.Count == 0)
         {
-            Debug.Log("No enemies, calling player");
             playerTurn.Invoke();
         }
         else
@@ -69,7 +68,6 @@ public class EventHandler : MonoBehaviour
     //Need to use System.Collections because otherwise C# compiler thinks it's IEnumerator<T>
     private System.Collections.IEnumerator callEnemiesInOrder()
     {
-        Debug.Log("calling enemies");
         foreach (var enemy in enemies.Values)
         {
             lastEnemyDied = false;
@@ -78,8 +76,8 @@ public class EventHandler : MonoBehaviour
             yield return new WaitUntil(() => processNextEnemy);
             //waits for Rigidbody2D of the enemy to fully update, if it changed its position
             //FIXME this kinda slows down player movement. Add a buffer for its movement?
-            if (enemy.getOldPosition() != enemy.transform.position)
-                yield return new WaitForFixedUpdate();
+            // if (enemy.getOldPosition() != enemy.transform.position)
+            //     yield return new WaitForFixedUpdate();
             if (lastEnemyDied)
                 continue;
             enemiesNewPosition.Add(CoordinatesUtil.convert(enemy.transform.position), enemy);
@@ -100,7 +98,6 @@ public class EventHandler : MonoBehaviour
         foreach (var positionToDelete in enemiesToDelete)
         {
             //positionToDelete is equivalent to the old enemy position
-            Debug.Log("Destroying an enemy");
             EnemyInterface enemyToDestroy = enemies[positionToDelete];
             bool result = enemies.Remove(positionToDelete);
             Destroy(enemyToDestroy.gameObject);

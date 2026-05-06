@@ -7,6 +7,7 @@ public abstract class EnemyInterface : MonoBehaviour
     public UnityEvent finishedTurn;
     protected Vector3 targetPosition;
     protected Vector3 direction = Vector3.zero;
+    protected Rigidbody2D rb;
 
     //TODO find a way to put this inside Start() and make derived classes call it automatically
     protected virtual void subscribe()
@@ -38,5 +39,10 @@ public abstract class EnemyInterface : MonoBehaviour
     public Vector3 getOldPosition()
     {
         return targetPosition - direction;
+    }
+
+    public void disableRigidBody()
+    {
+        rb.simulated = false;
     }
 }
