@@ -35,7 +35,8 @@ public abstract class EnemyInterface : MonoBehaviour
 
     public abstract void Move();
 
-    public Vector3 getOldPosition(){
+    public Vector3 getOldPosition()
+    {
         return targetPosition - direction;
     }
 }

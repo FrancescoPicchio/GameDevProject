@@ -17,7 +17,7 @@ public class EventHandler : MonoBehaviour
     private SortedList<float, EnemyInterface> enemiesNewPosition =
         new SortedList<float, EnemyInterface>();
 
-    //Can't delete during a loop, so it notes the position of 
+    //Can't delete during a loop, so it notes the position of
     //enemies that will have to be deleted
     private List<float> enemiesToDelete = new List<float>();
 
@@ -46,17 +46,12 @@ public class EventHandler : MonoBehaviour
         finishedEnemyTurn();
     }
 
-    public bool isEnemyInThisPosition(Vector3 enemyPosition){
-        float positionValue = CoordinatesUtil.convert(enemyPosition);
-        //Checks if there is an enemy that is at that position or has moved to that position
-        //FIXME this is also checking for enemies past position
-        return enemiesNewPosition.ContainsKey(positionValue) || enemies.ContainsKey(positionValue);
-    }
     public void callEnemies()
     {
         //Condition so player can move even if there are no enemies
         if (enemies.Count == 0)
         {
+            Debug.Log("No enemies, calling player");
             playerTurn.Invoke();
         }
         else
@@ -74,22 +69,30 @@ public class EventHandler : MonoBehaviour
     //Need to use System.Collections because otherwise C# compiler thinks it's IEnumerator<T>
     private System.Collections.IEnumerator callEnemiesInOrder()
     {
+        Debug.Log("calling enemies");
         foreach (var enemy in enemies.Values)
         {
             lastEnemyDied = false;
             processNextEnemy = false;
             enemy.Move();
             yield return new WaitUntil(() => processNextEnemy);
-
+            //waits for Rigidbody2D of the enemy to fully update, if it changed its position
+            //FIXME this kinda slows down player movement. Add a buffer for its movement?
+            if (enemy.getOldPosition() != enemy.transform.position)
+                yield return new WaitForFixedUpdate();
             if (lastEnemyDied)
                 continue;
+            enemiesNewPosition.Add(CoordinatesUtil.convert(enemy.transform.position), enemy);
             //Used for debugging.Checks if that position is already occupied
             //In theory we shouldn't need this
-            if(!enemiesNewPosition.TryAdd(CoordinatesUtil.convert(enemy.transform.position), enemy)){
-                Debug.Log(enemy.name + "Oh noes");
-                enemy.transform.position = enemy.getOldPosition();
-                enemiesNewPosition.Add(CoordinatesUtil.convert(enemy.transform.position), enemy);
-            }
+            // if (
+            //     !enemiesNewPosition.TryAdd(CoordinatesUtil.convert(enemy.transform.position), enemy)
+            // )
+            // {
+            //     Debug.Log(enemy.name + "Oh noes");
+            //     enemy.transform.position = enemy.getOldPosition();
+            //     enemiesNewPosition.Add(CoordinatesUtil.convert(enemy.transform.position), enemy);
+            // }
         }
 
         //deletes enemies that have been marked for death in previous loop.
@@ -97,6 +100,7 @@ public class EventHandler : MonoBehaviour
         foreach (var positionToDelete in enemiesToDelete)
         {
             //positionToDelete is equivalent to the old enemy position
+            Debug.Log("Destroying an enemy");
             EnemyInterface enemyToDestroy = enemies[positionToDelete];
             bool result = enemies.Remove(positionToDelete);
             Destroy(enemyToDestroy.gameObject);

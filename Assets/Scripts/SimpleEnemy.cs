@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class SimpleEnemy : EnemyInterface
 {
-    public enum Axis
-    {
-        horizontal,
-        vertical,
-    };
-
     public enum InitialDirection
     {
         north,
@@ -17,27 +11,21 @@ public class SimpleEnemy : EnemyInterface
     };
 
     [SerializeField]
-    private InitialDirection initialDirection;
-    [SerializeField]
-    private Axis movementAxis = Axis.horizontal;
-    private float moveSpeed = 50;
+    private InitialDirection initialDirection = InitialDirection.east;
+    private float moveSpeed = 80;
     private bool isMoving = false;
+
     void Start()
     {
         subscribe(); //TODO find a way to call Start of EnemyInterface
         //TODO change sprite based on direction
-        // if (movementAxis == Axis.horizontal)
-        //     direction = Vector3.right;
-        // else
-        //     direction = Vector3.up;
-        
-        if(initialDirection == InitialDirection.north)
+        if (initialDirection == InitialDirection.north)
             direction = Vector3.up;
-        if(initialDirection == InitialDirection.south)
+        if (initialDirection == InitialDirection.south)
             direction = Vector3.down;
-        if(initialDirection == InitialDirection.west)
+        if (initialDirection == InitialDirection.west)
             direction = Vector3.left;
-        if(initialDirection == InitialDirection.east)
+        if (initialDirection == InitialDirection.east)
             direction = Vector3.right;
     }
 
@@ -51,6 +39,7 @@ public class SimpleEnemy : EnemyInterface
                 targetPosition,
                 moveSpeed * Time.deltaTime
             );
+            //We could use Rigidbody2D.MoveTowards instead of waiting for FixedUpdate
             if (transform.position == targetPosition)
             {
                 isMoving = false;
@@ -66,15 +55,16 @@ public class SimpleEnemy : EnemyInterface
             0.4f,
             LayerMask.GetMask("Wall")
         );
-        // Collider2D enemyIsInFront = Physics2D.OverlapCircle(
-        //     transform.position + direction,
-        //     0.4f,
-        //     LayerMask.GetMask("Enemy")
-        // );
-        bool enemyIsInFront = eventHandler.isEnemyInThisPosition(transform.position+direction);
+        Collider2D enemyIsInFront = Physics2D.OverlapCircle(
+            transform.position + direction,
+            0.4f,
+            LayerMask.GetMask("Enemy")
+        );
+        // bool enemyIsInFront = eventHandler.isEnemyInThisPosition(transform.position + direction);
         if (wallIsInFront || enemyIsInFront)
         {
             //TODO flip sprite
+            targetPosition = transform.position;
             direction *= -1;
             finishedTurn.Invoke();
             return;
