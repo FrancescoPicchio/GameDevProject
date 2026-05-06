@@ -17,14 +17,15 @@ public class EventHandler : MonoBehaviour
     private SortedList<float, EnemyInterface> enemiesNewPosition =
         new SortedList<float, EnemyInterface>();
 
-    //Can't delete during a loop, so it notes which enemies will have to be deleted
+    //Can't delete during a loop, so it notes the position of 
+    //enemies that will have to be deleted
     private List<float> enemiesToDelete = new List<float>();
 
     //Used to enunciate the loops in the coroutine
     private bool processNextEnemy = false;
 
     //Used to keep track if we should add or not the current enemy to enemiesNewPosition.
-    //It'd be hard to delete that enemy from enemiesNewPosition otherwise
+    //it'd be hard to delete that enemy from enemiesNewPosition otherwise
     private bool lastEnemyDied = false;
 
     public void subscribeEnemy(EnemyInterface enemy)
@@ -73,15 +74,18 @@ public class EventHandler : MonoBehaviour
             processNextEnemy = false;
             enemy.Move();
             yield return new WaitUntil(() => processNextEnemy);
+
             if (lastEnemyDied)
                 continue;
             enemiesNewPosition.Add(CoordinatesUtil.convert(enemy.transform.position), enemy);
         }
 
+        //deletes enemies that have been marked for death in previous loop.
+        //can't delete enemies in previous loop because it messes up with iterators
         foreach (var positionToDelete in enemiesToDelete)
         {
+            //positionToDelete is equivalent to the old enemy position
             EnemyInterface enemyToDestroy = enemies[positionToDelete];
-            //Uses the old position of the enemy
             bool result = enemies.Remove(positionToDelete);
             Destroy(enemyToDestroy.gameObject);
         }

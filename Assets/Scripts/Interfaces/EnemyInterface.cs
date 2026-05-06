@@ -4,8 +4,9 @@ using UnityEngine.Events;
 public abstract class EnemyInterface : MonoBehaviour
 {
     protected EventHandler eventHandler;
-
     public UnityEvent finishedTurn;
+    protected Vector3 targetPosition;
+    protected Vector3 direction = Vector3.zero;
 
     //TODO find a way to put this inside Start() and make derived classes call it automatically
     protected virtual void subscribe()
@@ -33,4 +34,8 @@ public abstract class EnemyInterface : MonoBehaviour
     }
 
     public abstract void Move();
+
+    public Vector3 getOldPosition(){
+        return targetPosition - direction;
+    }
 }

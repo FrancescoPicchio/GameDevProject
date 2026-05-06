@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SimpleEnemy : EnemyInterface
 {
@@ -11,11 +10,8 @@ public class SimpleEnemy : EnemyInterface
 
     [SerializeField]
     private Axis movementAxis;
-    private Vector3 direction;
     private float moveSpeed = 50;
     private bool isMoving = false;
-    private Vector3 targetPosition;
-
     void Start()
     {
         subscribe(); //TODO find a way to call Start of EnemyInterface
@@ -80,9 +76,8 @@ public class SimpleEnemy : EnemyInterface
         eventHandler = GameObject.FindGameObjectWithTag("Logic").GetComponent<EventHandler>();
         if (eventHandler)
         {
-            Debug.Log("trying to unsubscribe SimpleEnemy");
             //Passes the old position of the enemy
-            eventHandler.unsubscribeEnemy(CoordinatesUtil.convert(targetPosition - direction));
+            eventHandler.unsubscribeEnemy(CoordinatesUtil.convert(getOldPosition()));
         }
         else
             Debug.Log("Couldn't find EventHandler");
