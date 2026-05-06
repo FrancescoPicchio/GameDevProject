@@ -46,6 +46,12 @@ public class EventHandler : MonoBehaviour
         finishedEnemyTurn();
     }
 
+    public bool isEnemyInThisPosition(Vector3 enemyPosition){
+        float positionValue = CoordinatesUtil.convert(enemyPosition);
+        //Checks if there is an enemy that is at that position or has moved to that position
+        //FIXME this is also checking for enemies past position
+        return enemiesNewPosition.ContainsKey(positionValue) || enemies.ContainsKey(positionValue);
+    }
     public void callEnemies()
     {
         //Condition so player can move even if there are no enemies
@@ -77,7 +83,13 @@ public class EventHandler : MonoBehaviour
 
             if (lastEnemyDied)
                 continue;
-            enemiesNewPosition.Add(CoordinatesUtil.convert(enemy.transform.position), enemy);
+            //Used for debugging.Checks if that position is already occupied
+            //In theory we shouldn't need this
+            if(!enemiesNewPosition.TryAdd(CoordinatesUtil.convert(enemy.transform.position), enemy)){
+                Debug.Log(enemy.name + "Oh noes");
+                enemy.transform.position = enemy.getOldPosition();
+                enemiesNewPosition.Add(CoordinatesUtil.convert(enemy.transform.position), enemy);
+            }
         }
 
         //deletes enemies that have been marked for death in previous loop.

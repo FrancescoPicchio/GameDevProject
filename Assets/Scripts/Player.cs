@@ -97,8 +97,8 @@ public class Player : MonoBehaviour
             1f,
             LayerMask.GetMask("Wall")
         );
-        if (wallIsInTheWay)
-            Debug.Log("Hit a wall!");
+       // if (wallIsInTheWay)
+        //     Debug.Log("Hit a wall!");
         return wallIsInTheWay;
     }
 }

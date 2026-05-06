@@ -8,18 +8,37 @@ public class SimpleEnemy : EnemyInterface
         vertical,
     };
 
+    public enum InitialDirection
+    {
+        north,
+        south,
+        west,
+        east,
+    };
+
     [SerializeField]
-    private Axis movementAxis;
+    private InitialDirection initialDirection;
+    [SerializeField]
+    private Axis movementAxis = Axis.horizontal;
     private float moveSpeed = 50;
     private bool isMoving = false;
     void Start()
     {
         subscribe(); //TODO find a way to call Start of EnemyInterface
         //TODO change sprite based on direction
-        if (movementAxis == Axis.horizontal)
-            direction = Vector3.right;
-        else
+        // if (movementAxis == Axis.horizontal)
+        //     direction = Vector3.right;
+        // else
+        //     direction = Vector3.up;
+        
+        if(initialDirection == InitialDirection.north)
             direction = Vector3.up;
+        if(initialDirection == InitialDirection.south)
+            direction = Vector3.down;
+        if(initialDirection == InitialDirection.west)
+            direction = Vector3.left;
+        if(initialDirection == InitialDirection.east)
+            direction = Vector3.right;
     }
 
     void Update()
@@ -34,22 +53,25 @@ public class SimpleEnemy : EnemyInterface
             );
             if (transform.position == targetPosition)
             {
-                finishedTurn.Invoke();
                 isMoving = false;
+                finishedTurn.Invoke();
             }
         }
     }
 
     public override void Move()
     {
-        Collider2D wallIsInFront = Physics2D.OverlapPoint(
+        Collider2D wallIsInFront = Physics2D.OverlapCircle(
             transform.position + direction,
+            0.4f,
             LayerMask.GetMask("Wall")
         );
-        Collider2D enemyIsInFront = Physics2D.OverlapPoint(
-            transform.position + direction,
-            LayerMask.GetMask("Enemy")
-        );
+        // Collider2D enemyIsInFront = Physics2D.OverlapCircle(
+        //     transform.position + direction,
+        //     0.4f,
+        //     LayerMask.GetMask("Enemy")
+        // );
+        bool enemyIsInFront = eventHandler.isEnemyInThisPosition(transform.position+direction);
         if (wallIsInFront || enemyIsInFront)
         {
             //TODO flip sprite

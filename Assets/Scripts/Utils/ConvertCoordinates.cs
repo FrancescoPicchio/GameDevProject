@@ -7,6 +7,6 @@ public static class CoordinatesUtil
     {
         //TODO Maybe use integers with Vector3Int?
         //If map is especially big we can make the multiplier bigger
-        return position.x + position.y * 100;
+        return position.x + position.y * 300;
     }
 }
