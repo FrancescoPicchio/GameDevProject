@@ -91,14 +91,31 @@ public class Player : MonoBehaviour
 
     private bool IsWallInTheWay(Vector3 movementDirection)
     {
-        RaycastHit2D wallIsInTheWay = Physics2D.Raycast(
-            transform.position,
-            movementDirection,
-            1f,
+        // RaycastHit2D wallIsInTheWay = Physics2D.Raycast(
+        //     transform.position,
+        //     movementDirection,
+        //     1f,
+        //     LayerMask.GetMask("Wall")
+        // );
+        // if(wallIsInTheWay && ){
+        //
+        // }
+        Collider2D wallIsInTheWay = Physics2D.OverlapCircle(
+            transform.position + movementDirection,
+            0.4f,
             LayerMask.GetMask("Wall")
         );
-       // if (wallIsInTheWay)
-        //     Debug.Log("Hit a wall!");
-        return wallIsInTheWay;
+        if (wallIsInTheWay)
+        {
+            if (wallIsInTheWay.CompareTag("Boulder"))
+            {
+                Boulder boulder = wallIsInTheWay.GetComponent<Boulder>();
+                bool canMoveThere = boulder.Move(movementDirection);
+                //TODO Choose if player should move with boulder.
+                return !canMoveThere;
+            }
+            return true;
+        }
+        return false;
     }
 }
